@@ -1,5 +1,6 @@
 package com.services;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.jsonClasses.*;
@@ -22,13 +23,14 @@ public class battleLogParse {
     }
 
     // Reset the cached data
-    public List<player> resetCachedData() {
-        topPlayers = topPlayersBattles.getBattleHistories();
-        return topPlayers;
+    @Scheduled(cron = "0 0 * * *") // Every morining at 12am, cron rate
+    public mapList resetCachedData() {
+        topPlayers = topPlayersBattles.getBattleHistories();// Gets new battles or players
+        getRankedMaps();// updates the current maps
+        createHashMaps();// updates the hashmaps for each map
+        return mapInfo;
     }
 
-    // This function filters all the maps played into certain categories and adds
-    // them to the
     // MapList and gives it, it's own hashmap
     public mapList getRankedMaps() {
         for (player p : topPlayers) {//
@@ -38,7 +40,7 @@ public class battleLogParse {
                 event e = m.getEvent();
                 // filtering of what maps will appear, no 5V5, no null or unknown modes either,
                 // no null maps, no showdown either, no duels
-                if (b.getType().equals("ranked") && e.getMap() != null && e.getMode() != null
+                if (b.getType() != null && b.getType().equals("ranked") && e.getMap() != null && e.getMode() != null
                         && !e.getMode().equals("unknown") && !e.getMode().contains("5V5") &&
                         !e.getMode().contains("Showdown") && !e.getMode().contains("duels")) {
                     mapInfo.addMap(e.getMap(), e.getMode());

@@ -50,4 +50,14 @@ public class mapList {
     public List<rankedMap> getRankedMapsList() {
         return rankedMapList;
     }
+
+    // returns a map object in the mapList based on a string
+    public rankedMap getMapUsingString(String map) {
+        for (rankedMap m : rankedMapList) {
+            if (m.getName().equals(map)) {
+                return m;
+            }
+        }
+        return null;
+    }
 }

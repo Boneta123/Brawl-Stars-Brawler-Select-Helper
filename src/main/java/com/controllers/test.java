@@ -1,6 +1,5 @@
 package com.controllers;
 
-import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,33 +24,10 @@ public class test {// tests the api is working
 
     }
 
-    // tests api to get all the battle logs
+    // tests api to get all the battle logs and parse them
     @GetMapping("/test2")
-    public List<player> testAPI2() {
+    public mapList testAPI2() {
         return parseBattle.resetCachedData();
 
     }
-
-    // tests the ranked map generation works, run test 2 first
-    @GetMapping("/test3")
-    public mapList testMapListGeneration() {
-        return parseBattle.getRankedMaps();
-
-    }
-
-    // tests if all the hashmaps are created for each map correctly
-    @GetMapping("/test4")
-    public mapList testMapHashGeneration() {
-        return parseBattle.createHashMaps();
-
-    }
-
-    // runs all the previous tests in one route
-    @GetMapping("/fullHashTest")
-    public mapList fullTest() {
-        parseBattle.resetCachedData();
-        parseBattle.getRankedMaps();
-        return parseBattle.createHashMaps();
-    }
-
 }
