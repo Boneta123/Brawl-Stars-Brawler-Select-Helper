@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Brawl Help Ranked Brawlers Selection</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
   </head>
-  <body></body>
+  <body>
+    <a th:href="@{/playerInfo}"></a>
+    <section class="button-grid">
+      <div class="link" th:each="map : ${maps}">
+        <a th:href="@{/info/{map}(map=${map.name})}">
+          <button th:text="${map.name}"></button>
+        </a>
+        <p th:text="${map.gameMode}"></p>
+      </div>
+    </section>
+  </body>
 </html>

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.jsonClasses.*;
 
+import jakarta.annotation.PostConstruct;
+
 import com.Classes.*;
 
 import java.util.*;
@@ -22,8 +24,16 @@ public class battleLogParse {
         this.mapInfo = mapInfo;
     }
 
+    // Initialize data
+    @PostConstruct
+    public void initializeData() {
+        topPlayers = topPlayersBattles.getBattleHistories();// Gets new battles or players
+        getRankedMaps();// Initializes current maps
+        createHashMaps();// Creates the hashmaps for each map
+    }
+
     // Reset the cached data
-    @Scheduled(cron = "0 0 * * *") // Every morining at 12am, cron rate
+    @Scheduled(cron = "0 0 * * * *") // Every morining at 12am, cron rate
     public mapList resetCachedData() {
         topPlayers = topPlayersBattles.getBattleHistories();// Gets new battles or players
         getRankedMaps();// updates the current maps
