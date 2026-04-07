@@ -7,12 +7,16 @@ import com.Classes.mapList;
 import com.jsonClasses.*;
 import com.services.*;
 
+import java.util.List;
+
 @RestController
 public class test {// tests the api is working
     private final battleLogParse parseBattle;
     private final topPlayerAPI apiTopPlayers;
 
-    public test(battleLogParse parseBattle, topPlayerAPI apiTopPlayers) {// dependency injection of battleLogs
+    public test(battleLogParse parseBattle, topPlayerAPI apiTopPlayers) {// dependency
+                                                                         // injection of
+                                                                         // battleLogs
         this.parseBattle = parseBattle;
         this.apiTopPlayers = apiTopPlayers;
     }
@@ -24,10 +28,18 @@ public class test {// tests the api is working
 
     }
 
-    // tests api to get all the battle logs and parse them
+    // tests api to get all the battle logs and parse them and enahnces teamates
+    // returns map hash maps
     @GetMapping("/test2")
     public mapList testAPI2() {
         return parseBattle.resetCachedData();
+    }
 
+    // tests api to get all the battle logs and parse them and enahnces teamates
+    // returns teamMateList
+    @GetMapping("/test3")
+    public List<teamMate> testAPI3() {
+        parseBattle.resetCachedData();
+        return teamMate.getAllTrackedPlayers();
     }
 }

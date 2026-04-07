@@ -36,6 +36,7 @@ public class battleLogsAPI {
         headers.set("Authorization", "Bearer " + apiKey);
         HttpEntity<String> entity = new HttpEntity<>(headers);
         List<player> topPlayers = apiTopPlayers.topPlayersGet().getPlayers();
+
         for (player p : topPlayers) {// runs the api for each player
             p.setGames(restTemplate
                     .exchange(

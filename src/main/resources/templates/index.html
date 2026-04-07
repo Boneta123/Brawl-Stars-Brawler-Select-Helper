@@ -7,7 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/index.css}" />
   </head>
   <body>
-    <a th:href="@{/playerInfo}"></a>
+    <a th:href="@{/playerInfo}">Players Used</a>
     <section class="button-grid">
       <div class="link" th:each="map : ${maps}">
         <a th:href="@{/info/{map}(map=${map.name})}">

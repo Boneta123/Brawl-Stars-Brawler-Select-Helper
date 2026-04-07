@@ -2,6 +2,8 @@ package com.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.jsonClasses.teamMate;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -11,9 +13,8 @@ public class playerInfoController {
 
     @GetMapping("/playerInfo")
     public String getPlayerInfoPage(Model model) {
+        model.addAttribute("playerList", teamMate.getAllTrackedPlayers());
         return "players";
     }
-
-    // for later, get class to return each player used and their trophies and name
 
 }

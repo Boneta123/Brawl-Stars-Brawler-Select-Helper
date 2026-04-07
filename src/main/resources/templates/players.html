@@ -5,5 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Player Data</title>
   </head>
-  <body></body>
+  <body>
+    <section class="allPlayerData">
+      <div th:each="p : ${playerList}">
+        <!--add a ? statement for if loading or not by checking if vals are 0-->
+        <p th:text="${p.name}"></p>
+        <p th:text="'tag: ' +${p.tag}"></p>
+        <p th:text="'total trophies: ' +${p.trophies}"></p>
+        <p th:text="'prestige: ' +${p.totalPrestigeLevel}"></p>
+        <p th:text="'level: ' +${p.expLevel}"></p>
+        <p th:text="'exp points: ' +${p.expPoints}"></p>
+        <p th:text="'3v3 Victories: ' +${p.vs3Victories}"></p>
+      </div>
+    </section>
+  </body>
 </html>

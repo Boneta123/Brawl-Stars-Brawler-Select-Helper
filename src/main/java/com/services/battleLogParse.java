@@ -18,26 +18,36 @@ public class battleLogParse {
     private final battleLogsAPI topPlayersBattles;
     private List<player> topPlayers;
     private final mapList mapInfo;
+    private final enhanceTeamMateInfoAPI playerInfo;
 
-    public battleLogParse(battleLogsAPI topPlayersBattles, mapList mapInfo) {// dependency injection/initialization
+    public battleLogParse(battleLogsAPI topPlayersBattles, mapList mapInfo, enhanceTeamMateInfoAPI playerInfo) {// dependency
+        // injection/initialization
         this.topPlayersBattles = topPlayersBattles;
         this.mapInfo = mapInfo;
+        this.playerInfo = playerInfo;
     }
 
     // Initialize data
     @PostConstruct
     public void initializeData() {
+        System.out.println("=== initializeData START === " + System.currentTimeMillis());// console log start
         topPlayers = topPlayersBattles.getBattleHistories();// Gets new battles or players
         getRankedMaps();// Initializes current maps
         createHashMaps();// Creates the hashmaps for each map
+        System.out.println("=== initializeData HashMaps Done === " + System.currentTimeMillis());// console log HashMaps
+                                                                                                 // Created
+        playerInfo.enhanceInfo();// Enhances each team mate info
+        System.out.println("=== initializeData END === " + System.currentTimeMillis()); // console log end
     }
 
     // Reset the cached data
     @Scheduled(cron = "0 0 * * * *") // Every morining at 12am, cron rate
     public mapList resetCachedData() {
+        teamMate.clearAllTrackedPlayers(); // cleares the current teamate list
         topPlayers = topPlayersBattles.getBattleHistories();// Gets new battles or players
         getRankedMaps();// updates the current maps
         createHashMaps();// updates the hashmaps for each map
+        playerInfo.enhanceInfo();// Enhances each team mate info
         return mapInfo;
     }
 
@@ -65,6 +75,7 @@ public class battleLogParse {
     // map
     // to determine how many times each brawler was played on this map
     // Checks each brawler for each teamate
+    // Also adds eached player as a tracked player
     public mapList createHashMaps() {
         for (player p : topPlayers) {//
             gameLog g = p.getGameLog();
@@ -76,6 +87,10 @@ public class battleLogParse {
                         if (gameTeams != null) {
                             for (List<teamMate> t : gameTeams) {
                                 for (teamMate tm : t) {
+                                    // tracks teamMate if not already tracked
+                                    if (!(teamMate.containsName(tm.getTag()))) {
+                                        teamMate.getAllTrackedPlayers().add(tm);
+                                    }
                                     mapInfo.updateMapHash(e.getMap(), tm.getBrawler().getName());
                                 }
                             }
