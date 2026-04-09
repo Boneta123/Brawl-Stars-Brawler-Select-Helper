@@ -11,7 +11,7 @@ COPY . .
 # Build jar by compiling
 RUN ./mvnw clean package
 
-# Run stage (lightweight runtime)
+# Run stage contains only whats needed to run (lightweight runtime)
 FROM eclipse-temurin:17-jre-jammy
 
 WORKDIR /app
